@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div>
+        <div>
+            <h2 th:text="|${loginid}님 안녕하세요!!|"></h2>
+        </div>
+        <div>
+            <form action="home.html" th:action="@{/member/logout}" method="post">
+                <button type="submit" th:text="#{home.logout}">로그아웃</button>
+            </form>
+
+            <button onclick="location.href='boards.html'"
+                    th:onclick="|location.href='@{/boards}'|" type="button" th:text="#{home.board}">게시판</button>
+        </div>
+    </div>
+</body>
+</html>

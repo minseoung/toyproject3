@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "uniqueConst", columnNames = {"loginid"}))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Member extends AuditingDate {

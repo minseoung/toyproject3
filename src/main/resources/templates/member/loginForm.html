@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
+    <div>
+        <div>
+            <h2 th:text="#{login.title}">로그인 창</h2>
+        </div>
+        <div>
+            <form method="post" action="loginForm.html" th:action th:object="${loginRequest}">
 
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+                </div>
+
+                <div>
+                    <label for="loginid" th:text="#{login.loginid}">아이디</label>
+                    <input type="text" id="loginid" th:field="*{loginid}" th:errorclass="field-error"
+                           placeholder="아이디를 입력해주세요">
+                    <div class="field-error" th:errors="*{loginid}">아이디 오류</div>
+                </div>
+
+                <div>
+                    <label for="pw" th:text="#{login.pw}">비밀번호</label>
+                    <input type="text" id="pw" th:field="*{pw}" th:errorclass="field-error"
+                           placeholder="비밀번호를 입력해주세요">
+                    <div class="field-error" th:errors="*{pw}">비밀번호 오류</div>
+                </div>
+
+                <hr>
+
+                <div>
+                    <div>
+                        <button type="submit" th:text="#{login.button.comp}">로그인</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="location.href='home.html'"
+                                th:onclick="|location.href='@{/home}'|" th:text="#{login.button.canc}">뒤로</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div>
+        <div>
+            <h2 th:text="#{board.title}">게시판</h2>
+        </div>
+        <div>
+            <div>
+                <button type="button" onclick="location.href='home_logined.html'"
+                th:onclick="|location.href='@{/home/logined}'|" th:text="#{board.home}">홈으로</button>
+            </div>
+            <div>
+                <button type="button" onclick="location.href='addForm.html'"
+                        th:onclick="|location.href='@{/boards/add}'|" th:text="#{board.add}">글쓰기</button>
+            </div>
+        </div>
+        <div>
+            <form th:object="${boardsRequest}">
+                <label for="title" th:text="#{board.cond.title}">게시글 제목</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요">
+
+                <label for="title" th:text="#{board.cond.writer}">글쓴이</label>
+                <input type="text" id="writer" th:field="*{writer}" placeholder="글쓴이를 입력하세요">
+
+                <button type="submit" th:text="#{board.search}">검색</button>
+            </form>
+        </div>
+        <div>
+            <h3 th:text="#{board.list}">게시글 목록</h3>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th th:text="#{board.cond.title}">게시글 제목</th>
+                        <th th:text="#{board.cond.writer}">글쓴이</th>
+                        <th th:text="#{board.date}">작성날짜</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="board : ${boards}">
+                        <td><a th:href="@{|/boards/${board.boardId}|}" th:text="${board.title}">제목</a></td>
+                        <td><a th:href="@{|/member/${board.memberId}|}" th:text="${board.writer}">작성자</a></td>
+                        <td><a th:text="${board.writtenDate}">작성날짜</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -21,4 +21,15 @@ public class Board extends AuditingBy {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public Board(String title, String content, Member member) {
+        this.title = title;
+        this.content = content;
+        addMember(member);
+    }
+
+    private void addMember(Member member) {
+        this.member = member;
+        member.getBoards().add(this);
+    }
 }

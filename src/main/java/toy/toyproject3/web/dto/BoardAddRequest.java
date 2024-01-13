@@ -1,16 +1,15 @@
 package toy.toyproject3.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class LoginRequest {
+public class BoardAddRequest {
     @NotBlank
-    private String loginid;
+    private String title;
     @NotBlank
-    private String pw;
+    private String content;
+
 }

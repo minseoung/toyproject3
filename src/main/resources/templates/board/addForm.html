@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <h2 th:text="#{board.add.title}">게시물 업로드 창</h2>
+    </div>
+    <div>
+        <form method="post" action="addForm.html" th:action th:object="${addRequest}">
+
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+            </div>
+
+            <div>
+                <label for="title" th:text="#{board.add.topic}">제목</label>
+                <input type="text" id="title" th:field="*{title}" th:errorclass="field-error"
+                       placeholder="제목을 입력해주세요">
+                <div class="field-error" th:errors="*{title}">제목 오류</div>
+            </div>
+
+            <div>
+                <label for="content" th:text="#{board.add.content}">내용</label>
+                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}"
+                          th:errorclass="field-error" placeholder="내용을 입력해주세요"></textarea>
+                <div class="field-error" th:errors="*{content}">내용 오류</div>
+            </div>
+
+            <hr>
+
+            <div>
+                <div>
+                    <button type="submit" th:text="#{board.add.post}">게시</button>
+                </div>
+                <div>
+                    <button type="button" onclick="location.href='boards.html'"
+                            th:onclick="|location.href='@{/boards}'|" th:text="#{board.add.canc}">취소</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</body>
+</html>

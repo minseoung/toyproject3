@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <style>
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
+<div>
+    <div>
+        <h2 th:text="#{join.title}">회원가입 창</h2>
+    </div>
+    <div>
+        <form method="post" action="addForm.html" th:action th:object="${addRequest}">
+
+            <div th:if="${#fields.hasGlobalErrors()}">
+                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+            </div>
+
+            <div>
+                <label for="loginid" th:text="#{join.loginid}">아이디</label>
+                <input type="text" id="loginid" th:field="*{loginid}" th:errorclass="field-error"
+                placeholder="아이디를 입력해주세요">
+                <div class="field-error" th:errors="*{loginid}">아이디 오류</div>
+            </div>
+
+            <div>
+                <label for="pw" th:text="#{join.pw}">비밀번호</label>
+                <input type="text" id="pw" th:field="*{pw}" th:errorclass="field-error"
+                       placeholder="비밀번호를 입력해주세요">
+                <div class="field-error" th:errors="*{pw}">비밀번호 오류</div>
+            </div>
+
+            <div>
+                <label for="name" th:text="#{join.name}">이름</label>
+                <input type="text" id="name" th:field="*{name}" th:errorclass="field-error"
+                       placeholder="이름을 입력해주세요">
+                <div class="field-error" th:errors="*{name}">이름 오류</div>
+            </div>
+
+            <div>
+                <label for="age" th:text="#{join.age}">나이</label>
+                <input type="text" id="age" th:field="*{age}" th:errorclass="field-error"
+                       placeholder="나이를 입력해주세요">
+                <div class="field-error" th:errors="*{age}">나이 오류</div>
+            </div>
+
+            <hr>
+
+            <div>
+                <div>
+                    <button type="submit" th:text="#{join.button.comp}">가입</button>
+                </div>
+                <div>
+                    <button type="button" onclick="location.href='home.html'"
+                    th:onclick="|location.href='@{/home}'|" th:text="#{join.button.canc}">취소</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.toyproject3.domain.entity.Member;
 import toy.toyproject3.domain.repository.MemberRepository;
+import toy.toyproject3.exception.AlreadyExistLoginIdException;
 import toy.toyproject3.exception.LoginFailedException;
 import toy.toyproject3.exception.MemberNotFound;
 import toy.toyproject3.web.dto.LoginRequest;
@@ -25,6 +26,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public Long join(MemberAddRequest addRequest) {
+        if (memberRepository.findByLoginid(addRequest.getLoginid()).isPresent()) {
+            throw new AlreadyExistLoginIdException("이미 존재하는 아이디 입니다.");
+        }
         Member member = new Member(addRequest.getName(), addRequest.getAge(), addRequest.getLoginid(), addRequest.getPw());
         memberRepository.save(member);
         return member.getId();
