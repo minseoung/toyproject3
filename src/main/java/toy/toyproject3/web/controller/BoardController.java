@@ -7,11 +7,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import toy.toyproject3.domain.entity.Board;
 import toy.toyproject3.service.BoardService;
 import toy.toyproject3.web.argumentResolver.Login;
 import toy.toyproject3.web.dto.BoardAddRequest;
+import toy.toyproject3.web.dto.BoardResponse;
 import toy.toyproject3.web.dto.BoardsRequest;
 import toy.toyproject3.web.dto.BoardsResponse;
 
@@ -42,5 +44,12 @@ public class BoardController {
         }
         boardService.post(addRequest, loginMemberId);
         return "redirect:/boards";
+    }
+
+    @GetMapping("/boards/{id}")
+    public String edit(@PathVariable(name = "id") Long id, Model model, @Login Long loginMemberId) {
+        BoardResponse response = boardService.findBord(id, loginMemberId);
+        model.addAttribute("response", response);
+        return "board/board";
     }
 }

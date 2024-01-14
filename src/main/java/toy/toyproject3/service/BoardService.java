@@ -7,8 +7,10 @@ import toy.toyproject3.domain.entity.Board;
 import toy.toyproject3.domain.entity.Member;
 import toy.toyproject3.domain.repository.BoardRepository;
 import toy.toyproject3.domain.repository.MemberRepository;
+import toy.toyproject3.exception.BoardNotFoundException;
 import toy.toyproject3.exception.MemberNotFound;
 import toy.toyproject3.web.dto.BoardAddRequest;
+import toy.toyproject3.web.dto.BoardResponse;
 import toy.toyproject3.web.dto.BoardsRequest;
 import toy.toyproject3.web.dto.BoardsResponse;
 
@@ -38,5 +40,16 @@ public class BoardService {
         List<Board> boards = boardRepository.findBoards(boardsRequest.getTitle(), boardsRequest.getWriter());
         List<BoardsResponse> boardsDto = boards.stream().map(board -> new BoardsResponse(board)).collect(Collectors.toList());
         return boardsDto;
+    }
+
+    public BoardResponse findBord(Long boardId, Long loginMemberId) {
+        Optional<Board> optionalBoard = boardRepository.findById(boardId);
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            BoardResponse boardResponse = new BoardResponse(board, loginMemberId);
+            return boardResponse;
+        } else {
+            throw new BoardNotFoundException("해당 게시물을 찾을 수 없습니다.");
+        }
     }
 }
