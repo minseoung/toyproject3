@@ -3,6 +3,7 @@ package toy.toyproject3.domain.repository;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 import toy.toyproject3.domain.entity.Board;
 import toy.toyproject3.domain.entity.QBoard;
@@ -21,6 +22,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
         return queryFactory
                 .select(board)
                 .from(board)
+                .orderBy(board.lastModifiedDate.desc())
                 .join(board.member, member)
                 .fetchJoin()
                 .where(titleEq(title), writerEq(writer))

@@ -52,7 +52,9 @@
         <p></p>
 
         <div>
-            <table>
+
+            <label for="table" th:text="|총 ${boards.getTotalElements()}개의 결과가 나왔습니다|">총 개수</label>
+            <table id="table">
                 <thead>
                     <tr>
                         <th th:text="#{board.cond.num}">번호</th>
@@ -62,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="board : ${boards}">
+                    <tr th:each="board : ${boards.getContent()}">
                         <td><a th:text="${board.boardId}">번호</a></td>
                         <td><a th:href="@{|/boards/${board.boardId}|}" th:text="${board.title}">제목</a></td>
                         <td><a th:href="@{|/member/${board.memberId}|}" th:text="${board.writer}">작성자</a></td>
@@ -70,6 +72,12 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div>
+            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
+                <a th:if="${page != nowPage}" th:href="@{/boards(page = ${page - 1})}" th:text="${page}">번호</a>
+                <strong th:if="${page == nowPage}" th:text="${page}" style="color : teal">번호</strong>
+            </th:block>
         </div>
     </div>
 </body>

@@ -1,6 +1,8 @@
 package toy.toyproject3.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toy.toyproject3.domain.entity.Board;
@@ -9,10 +11,7 @@ import toy.toyproject3.domain.repository.BoardRepository;
 import toy.toyproject3.domain.repository.MemberRepository;
 import toy.toyproject3.exception.BoardNotFoundException;
 import toy.toyproject3.exception.MemberNotFound;
-import toy.toyproject3.web.dto.BoardAddRequest;
-import toy.toyproject3.web.dto.BoardResponse;
-import toy.toyproject3.web.dto.BoardsRequest;
-import toy.toyproject3.web.dto.BoardsResponse;
+import toy.toyproject3.web.dto.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
@@ -36,10 +36,14 @@ public class BoardService {
             throw new MemberNotFound("존재하지 않는 회원입니다.");
         }
     }
-    public List<BoardsResponse> findBoards(BoardsRequest boardsRequest) {
+    public Page<BoardsResponse> findBoards(BoardsRequest boardsRequest, Pageable pageable) {
         List<Board> boards = boardRepository.findBoards(boardsRequest.getTitle(), boardsRequest.getWriter());
-        List<BoardsResponse> boardsDto = boards.stream().map(board -> new BoardsResponse(board)).collect(Collectors.toList());
-        return boardsDto;
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), boards.size());
+
+        Page<Board> boardPage = new PageImpl<>(boards.subList(start, end), pageable, boards.size());
+        Page<BoardsResponse> result = boardPage.map(board -> new BoardsResponse(board));
+        return result;
     }
 
     public BoardResponse findBord(Long boardId, Long loginMemberId) {
@@ -51,5 +55,29 @@ public class BoardService {
         } else {
             throw new BoardNotFoundException("해당 게시물을 찾을 수 없습니다.");
         }
+    }
+
+    public BoardEditResponse editForm(Long id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            return new BoardEditResponse(board);
+        } else {
+            throw new BoardNotFoundException("해당 게시물을 찾을 수 없습니다.");
+        }
+    }
+
+    public void edit(Long id, BoardEditResponse editRequest) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            board.edit(editRequest.getTitle(), editRequest.getContent());
+        } else {
+            throw new BoardNotFoundException("해당 게시물을 찾을 수 없습니다.");
+        }
+    }
+
+    public void delete(Long id) {
+        boardRepository.deleteById(id);
     }
 }

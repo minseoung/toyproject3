@@ -6,9 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import toy.toyproject3.domain.entity.Board;
 import toy.toyproject3.domain.entity.Member;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +36,14 @@ class BoardRepositoryTest {
         Board findBoard = boardRepository.findById(board.getId()).get();
         //then
         assertThat(findBoard.getId()).isEqualTo(board.getId());
+    }
+
+    @Test
+    @DisplayName("게시글 목록")
+    void list() {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        List<Board> boards = boardRepository.findBoards(null, null);
+        System.out.println(boards.size());
     }
 
 //    @Test

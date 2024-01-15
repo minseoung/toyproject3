@@ -32,4 +32,9 @@ public class Board extends AuditingBy {
         this.member = member;
         member.getBoards().add(this);
     }
+
+    public void edit(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

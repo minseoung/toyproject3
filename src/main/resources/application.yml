@@ -10,7 +10,7 @@ spring:
     basename: messages, errors
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         default_batch_fetch_size: 100

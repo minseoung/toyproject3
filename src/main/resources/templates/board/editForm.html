@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+</style>
+<body>
+<div>
+    <div>
+        <h2 th:text="#{board.edit.TITLE}">게시물 수정 페이지</h2>
+    </div>
+
+    <hr>
+
+    <div>
+        <form method="post"  th:action th:object="${response}">
+            <div>
+                <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
+                <input type="text" id="boardId" th:field="*{boardId}" readonly>
+            </div>
+            <div>
+                <label for="writer" th:text="#{board.board.writer}">작성자</label>
+                <input type="text" id="writer" th:field="*{writer}" readonly>
+            </div>
+            <div>
+                <label for="title" th:text="'수정 할 제목'">수정 할 제목</label>
+                <input type="text" id="title" th:field="*{title}" th:errorclass="field-error">
+                <div th:if="${#fields.hasErrors('title')}" class="field-error" th:errors="*{title}">제목 오류</div>
+            </div>
+            <div>
+                <label for="content" th:text="'수정 할 내용'">수정 할 내용</label>
+                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}" th:errorclass="field-error"></textarea>
+                <div class="field-error" th:errors="*{content}">내용 오류</div>
+            </div>
+
+            <hr>
+
+            <div>
+                <div>
+                    <button type="submit" th:text="수정완료">수정완료</button>
+                </div>
+                <div>
+                    <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}|}'|" th:text="취소">취소</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -9,10 +9,14 @@
         <h2 th:text="#{board.board.TITLE}">게시물 상세 페이지</h2>
     </div>
 
+    <div th:if="${param.status}">
+        <h3 th:text="'수정 완료'">수정완료</h3>
+    </div>
+
     <hr>
 
     <div>
-        <form th:object="${response}">
+        <form method="post" th:action th:object="${response}">
             <div>
                 <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
                 <input type="text" id="boardId" th:field="*{boardId}" readonly>
@@ -37,7 +41,7 @@
                     <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}/edit|}'|" th:text="수정">수정</button>
                 </div>
                 <div th:if="${response.boardMemberId==response.loginMemberId}">
-                    <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}/delete|}'|" th:text="삭제">삭제</button>
+                    <button type="submit" th:text="삭제">삭제</button>
                 </div>
                 <div>
                     <button type="button" th:onclick="|location.href='@{/boards}'|" th:text="뒤로">뒤로</button>
