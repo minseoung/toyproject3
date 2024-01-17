@@ -18,6 +18,8 @@ public class QMember extends EntityPathBase<Member> {
 
     private static final long serialVersionUID = 478504609L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QMember member = new QMember("member1");
 
     public final toy.toyproject3.domain.entity.auditing.QAuditingDate _super = new toy.toyproject3.domain.entity.auditing.QAuditingDate(this);
@@ -38,18 +40,29 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath name = createString("name");
 
+    public final QUploadFile pfp;
+
     public final StringPath pw = createString("pw");
 
     public QMember(String variable) {
-        super(Member.class, forVariable(variable));
+        this(Member.class, forVariable(variable), INITS);
     }
 
     public QMember(Path<? extends Member> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QMember(PathMetadata metadata) {
-        super(Member.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QMember(PathMetadata metadata, PathInits inits) {
+        this(Member.class, metadata, inits);
+    }
+
+    public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.pfp = inits.isInitialized("pfp") ? new QUploadFile(forProperty("pfp")) : null;
     }
 
 }

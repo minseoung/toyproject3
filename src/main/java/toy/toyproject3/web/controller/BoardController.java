@@ -31,13 +31,20 @@ public class BoardController {
                          Model model) {
         Page<BoardsResponse> boards = boardService.findBoards(boardsRequest, pageable);
 
-        int nowPage = boards.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, boards.getTotalPages());
+        int blockLimit = 3;
+        int startPage = (((int) (Math.ceil((double) (pageable.getPageNumber() + 1) / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = startPage + blockLimit - 1;
+        if (endPage > boards.getTotalPages()) {
+            endPage = boards.getTotalPages();
+        }
+        if (endPage == 0) {
+            endPage = 1;
+        }
 
-        model.addAttribute("nowPage", nowPage);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        System.out.println("startPage = " + startPage);
+        System.out.println("endPage = " + endPage);
         model.addAttribute("boards", boards);
 
         return "board/boards";

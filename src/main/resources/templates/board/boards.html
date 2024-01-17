@@ -74,9 +74,24 @@
             </table>
         </div>
         <div>
+            <th:block th:if="|${boards.getPageable().getPageNumber() <= 0}|">
+                <span th:text="이전">이전</span>
+            </th:block>
+            <th:block th:if="|${boards.getPageable().getPageNumber() > 0}|">
+                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() - 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="이전">이전</a>
+            </th:block>
+
             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
-                <a th:if="${page != nowPage}" th:href="@{/boards(page = ${page - 1})}" th:text="${page}">번호</a>
-                <strong th:if="${page == nowPage}" th:text="${page}" style="color : teal">번호</strong>
+                <a th:if="${page != boards.getPageable().getPageNumber() + 1}"
+                   th:href="@{/boards(page = ${page - 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="${page}">번호</a>
+                <strong th:if="${page == boards.getPageable().getPageNumber() + 1}" th:text="${page}" style="color : teal">번호</strong>
+            </th:block>
+
+            <th:block th:if="|${boards.getPageable().getPageNumber() >= boards.getTotalPages() - 1}|">
+                <span th:text="다음">다음</span>
+            </th:block>
+            <th:block th:if="|${boards.getPageable().getPageNumber() < boards.getTotalPages() - 1}|">
+                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() + 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="다음">다음</a>
             </th:block>
         </div>
     </div>

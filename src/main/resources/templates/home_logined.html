@@ -8,6 +8,10 @@
         <div>
             <h2 th:text="|${loginid}님 안녕하세요!!|"></h2>
         </div>
+        <div>
+            <img th:src="|/member/pfp/${pfp.getDbFileName().isBlank() ? '173a1258-a097-4fbd-984d-261415da9d49.jpg' : pfp.getDbFileName()}|"
+                 width="117" height="156">
+        </div>
 
         <hr>
 

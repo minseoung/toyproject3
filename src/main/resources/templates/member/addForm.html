@@ -18,7 +18,7 @@
     <hr>
 
     <div>
-        <form method="post" action="addForm.html" th:action th:object="${addRequest}">
+        <form method="post" action="addForm.html" th:action th:object="${addRequest}" enctype="multipart/form-data">
 
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -50,6 +50,12 @@
                 <input type="text" id="age" th:field="*{age}" th:errorclass="field-error"
                        placeholder="나이를 입력해주세요">
                 <div class="field-error" th:errors="*{age}">나이 오류</div>
+            </div>
+
+            <div>
+                <label for="pfp" th:text="|프로필 사진|">프로필 사진</label>
+                <input type="file" id="pfp" th:field="*{pfp}" th:errorclass="field-error">
+                <div class="field-error" th:errors="*{pfp}">프로필 사진 오류</div>
             </div>
 
             <hr>

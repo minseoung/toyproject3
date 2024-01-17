@@ -23,14 +23,17 @@ public class Member extends AuditingDate {
     private int age;
     private String loginid;
     private String pw;
+    @Embedded
+    private UploadFile pfp;
 
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 
-    public Member(String name, int age, String loginid, String pw) {
+    public Member(String name, int age, String loginid, String pw, UploadFile pfp) {
         this.name = name;
         this.age = age;
         this.loginid = loginid;
         this.pw = pw;
+        this.pfp = pfp;
     }
 }

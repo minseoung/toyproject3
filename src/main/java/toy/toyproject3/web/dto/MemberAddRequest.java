@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
+import toy.toyproject3.domain.entity.UploadFile;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +25,5 @@ public class MemberAddRequest {
     private String loginid;
     @NotBlank
     private String pw;
+    private MultipartFile pfp;
 }

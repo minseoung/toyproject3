@@ -16,12 +16,12 @@ public class InitDB {
 
     @PostConstruct
     public void init() {
-        Member member1 = new Member("유재석", 52, "dbwotjr52", "1234");
-        Member member2 = new Member("박명수", 54, "qkraudtn54", "1234");
-        Member member3 = new Member("정준하", 53, "wjdwnsgk53", "1234");
-        Member member4 = new Member("정형돈", 47, "wjdgudehs47", "1234");
-        Member member5 = new Member("하동훈", 44, "gkehdgns44", "1234");
-        Member member6 = new Member("노홍철", 44, "shghdcjf44", "1234");
+        Member member1 = new Member("유재석", 52, "dbwotjr52", "1234", null);
+        Member member2 = new Member("박명수", 54, "qkraudtn54", "1234", null);
+        Member member3 = new Member("정준하", 53, "wjdwnsgk53", "1234", null);
+        Member member4 = new Member("정형돈", 47, "wjdgudehs47", "1234", null);
+        Member member5 = new Member("하동훈", 44, "gkehdgns44", "1234", null);
+        Member member6 = new Member("노홍철", 44, "shghdcjf44", "1234", null);
 
         memberRepository.save(member1);
         memberRepository.save(member2);

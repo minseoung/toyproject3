@@ -6,7 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import toy.toyproject3.domain.entity.FileStore;
 import toy.toyproject3.domain.entity.Member;
+import toy.toyproject3.domain.entity.UploadFile;
 import toy.toyproject3.domain.repository.MemberRepository;
 import toy.toyproject3.exception.AlreadyExistLoginIdException;
 import toy.toyproject3.exception.LoginFailedException;
@@ -24,12 +26,14 @@ import java.util.Optional;
 @Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final FileStore fileStore;
 
     public Long join(MemberAddRequest addRequest) {
         if (memberRepository.findByLoginid(addRequest.getLoginid()).isPresent()) {
             throw new AlreadyExistLoginIdException("이미 존재하는 아이디 입니다.");
         }
-        Member member = new Member(addRequest.getName(), addRequest.getAge(), addRequest.getLoginid(), addRequest.getPw());
+        UploadFile uploadFile = fileStore.saveFile(addRequest.getPfp());
+        Member member = new Member(addRequest.getName(), addRequest.getAge(), addRequest.getLoginid(), addRequest.getPw(), uploadFile);
         memberRepository.save(member);
         return member.getId();
     }
