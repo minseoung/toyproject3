@@ -8,6 +8,10 @@ spring:
     driver-class-name: org.h2.Driver
   messages:
     basename: messages, errors
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   jpa:
     hibernate:
       ddl-auto: create
@@ -28,3 +32,4 @@ server:
 
 file:
   dir: /C:/Users/PC/Desktop/fileStore/
+

@@ -25,5 +25,5 @@ public class MemberAddRequest {
     private String loginid;
     @NotBlank
     private String pw;
-    private MultipartFile pfp;
+//    private MultipartFile pfp;
 }

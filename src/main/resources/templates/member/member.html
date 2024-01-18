@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<style>
+    .info img{float:left; margin:10px;}
+    .div2{clear:both;}
+</style>
+<body>
+    <div>
+        <div class="info">
+            <h2 th:text="'회원 정보'">회원 정보</h2>
+            <div>
+                <button type="button" onclick="location.href='home.html'"
+                        th:onclick="|location.href='@{/boards}'|" th:text="#{login.button.canc}">뒤로</button>
+            </div>
+            <hr>
+            <th:block th:if="|${response.pfp == null}|">
+                <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
+                     width="117" height="156">
+            </th:block>
+
+            <th:block th:if="|${response.pfp != null}|">
+                <img th:src="|/member/pfp/${response.pfp.getDbFileName()}|"
+                     width="117" height="156">
+            </th:block>
+            <div>
+            <p>
+                <strong th:text="|${response.loginid}|"></strong>
+            </p>
+            <p>
+                <strong th:text="|이름 ${response.name}|">이름</strong>
+            </p>
+            <p>
+                <strong th:text="|나이 ${response.age}|">나이</strong>
+            </p>
+            </div>
+        </div>
+        <div class="div2">
+            <h2 th:text="|${response.loginid}이 올린 게시물|"></h2>
+            <hr>
+
+            <label for="table" th:text="|총 ${response.boards.getTotalElements()}개|">총 개수</label>
+            <table id="table">
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>게시글 제목</th>
+                    <th>글쓴이</th>
+                    <th>작성날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${response.boards.getContent()}">
+                    <td><a th:text="${board.boardId}">번호</a></td>
+                    <td><a th:href="@{|/boards/${board.boardId}|}" th:text="${board.title}">제목</a></td>
+                    <td><span th:text="${response.loginid}">작성자</span></td>
+                    <td><span th:text="${board.writtenDate}">작성날짜</span></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <th:block th:if="|${response.boards.getPageable().getPageNumber() <= 0}|">
+                    <span th:text="이전">이전</span>
+                </th:block>
+                <th:block th:if="|${response.boards.getPageable().getPageNumber() > 0}|">
+                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() - 1}|}" th:text="이전">이전</a>
+                </th:block>
+
+                <th:block th:each="page : ${#numbers.sequence(response.startPage, response.endPage)}">
+                    <a th:if="${page != response.boards.getPageable().getPageNumber() + 1}"
+                       th:href="@{|/member/${response.id}?page=${page - 1}|}" th:text="${page}">번호</a>
+                    <strong th:if="${page == response.boards.getPageable().getPageNumber() + 1}" th:text="${page}" style="color : teal">번호</strong>
+                </th:block>
+
+                <th:block th:if="|${response.boards.getPageable().getPageNumber() >= response.boards.getTotalPages() - 1}|">
+                    <span th:text="다음">다음</span>
+                </th:block>
+                <th:block th:if="|${response.boards.getPageable().getPageNumber() < response.boards.getTotalPages() - 1}|">
+                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() + 1}|}" th:text="다음">다음</a>
+                </th:block>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

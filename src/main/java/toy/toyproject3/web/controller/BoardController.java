@@ -1,6 +1,7 @@
 package toy.toyproject3.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -8,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
     private final BoardService boardService;
     @GetMapping("/boards")
@@ -84,6 +87,10 @@ public class BoardController {
     public String edit(@PathVariable(name = "id") Long id, @Validated @ModelAttribute(name = "response") BoardEditResponse response, BindingResult bindingResult,
                        Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                log.info("error={}", fieldError.getField());
+            }
             return "board/editForm";
         }
         boardService.edit(id, response);

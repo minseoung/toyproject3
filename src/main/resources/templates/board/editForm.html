@@ -18,7 +18,7 @@
     <hr>
 
     <div>
-        <form method="post"  th:action th:object="${response}">
+        <form method="post"  th:action th:object="${response}" enctype="multipart/form-data">
             <div>
                 <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
                 <input type="text" id="boardId" th:field="*{boardId}" readonly>
@@ -26,6 +26,16 @@
             <div>
                 <label for="writer" th:text="#{board.board.writer}">작성자</label>
                 <input type="text" id="writer" th:field="*{writer}" readonly>
+            </div>
+            <div>
+                <th:block th:if="${response.images!=null}">
+                    <th:block th:each="image : ${response.images}">
+                        <img th:src="|/member/pfp/${image}|" width="200" height="200">
+                    </th:block>
+                </th:block>
+
+                <label for="files" th:text="|이미지 추가|">이미지 등록</label>
+                <input type="file" id="files" th:field="*{files}" multiple="multiple">
             </div>
             <div>
                 <label for="title" th:text="'수정 할 제목'">수정 할 제목</label>

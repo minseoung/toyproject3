@@ -24,8 +24,14 @@ public class HomeController {
         Member findMember = memberService.findMember(loginMemberId);
         String loginid = findMember.getLoginid();
         UploadFile pfp = findMember.getPfp();
+        String name = findMember.getName();
+        Long id = findMember.getId();
+        int age = findMember.getAge();
+        model.addAttribute("id", id);
         model.addAttribute("loginid", loginid);
         model.addAttribute("pfp", pfp);
+        model.addAttribute("name", name);
+        model.addAttribute("age", age);
         return "home_logined";
     }
 

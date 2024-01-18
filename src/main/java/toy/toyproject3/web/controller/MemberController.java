@@ -7,19 +7,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import toy.toyproject3.domain.entity.FileStore;
 import toy.toyproject3.exception.AlreadyExistLoginIdException;
 import toy.toyproject3.exception.LoginFailedException;
 import toy.toyproject3.service.MemberService;
+import toy.toyproject3.web.argumentResolver.Login;
 import toy.toyproject3.web.dto.LoginRequest;
 import toy.toyproject3.web.dto.MemberAddRequest;
+import toy.toyproject3.web.dto.MemberEditResponse;
+import toy.toyproject3.web.dto.MemberResponse;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -81,6 +89,31 @@ public class MemberController {
             session.invalidate();
         }
         return "redirect:/home";
+    }
+
+    @GetMapping("/{id}")
+    public String member(@PathVariable(name = "id") Long id, Model model,
+                         @PageableDefault(page = 0, size = 10, sort = "lastModifiedDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        MemberResponse response = memberService.member(id, pageable);
+        model.addAttribute("response", response);
+        return "member/member";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable(name = "id") Long id, Model model) {
+        MemberEditResponse response = memberService.editForm(id);
+        model.addAttribute("response", response);
+        return "member/editForm";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable(name = "id") Long id, @ModelAttribute(name = "response") MemberEditResponse response,
+                       BindingResult bindingResult, @Login Long loginMemberId) {
+        if (bindingResult.hasErrors()) {
+            return "member/editForm";
+        }
+        memberService.edit(response, loginMemberId, id);
+        return "redirect:/home/logined";
     }
 
     @ResponseBody

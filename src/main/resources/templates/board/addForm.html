@@ -18,7 +18,7 @@
     <hr>
 
     <div>
-        <form method="post" action="addForm.html" th:action th:object="${addRequest}">
+        <form method="post" action="addForm.html" th:action th:object="${addRequest}" enctype="multipart/form-data">
 
             <div th:if="${#fields.hasGlobalErrors()}">
                 <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -36,6 +36,11 @@
                 <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}"
                           th:errorclass="field-error" placeholder="내용을 입력해주세요"></textarea>
                 <div class="field-error" th:errors="*{content}">내용 오류</div>
+            </div>
+
+            <div>
+                <label for="images" th:text="|이미지 추가|">이미지 추가</label>
+                <input type="file" id="images" th:field="*{images}" multiple="multiple">
             </div>
 
             <hr>

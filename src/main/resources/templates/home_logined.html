@@ -3,16 +3,43 @@
 <head>
     <meta charset="UTF-8">
 </head>
+<style>
+    img{float:left; margin:10px;}
+    .div2{clear:both;}
+</style>
 <body>
     <div>
         <div>
             <h2 th:text="|${loginid}님 안녕하세요!!|"></h2>
         </div>
-        <div>
-            <img th:src="|/member/pfp/${pfp.getDbFileName().isBlank() ? '173a1258-a097-4fbd-984d-261415da9d49.jpg' : pfp.getDbFileName()}|"
+        <th:block th:if="|${pfp == null}|">
+            <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
                  width="117" height="156">
-        </div>
+        </th:block>
 
+        <th:block th:if="|${pfp != null}|">
+            <img th:src="|/member/pfp/${pfp.getDbFileName()}|"
+                 width="117" height="156">
+        </th:block>
+        <div>
+            <p><strong th:text="${loginid}">아이디</strong></p>
+            <p>
+                <strong th:text="이름">이름</strong>
+                <span th:text="${name}">이름</span>
+            </p>
+            <p>
+                <strong th:text="나이">나이</strong>
+                <span th:text="${age}">나이</span>
+            </p>
+            <button type="button"
+                    th:onclick="|location.href='@{|/member/${id}/edit|}'|" th:text="'회원정보 수정'">회원정보 수정</button>
+        </div>
+<!--        <div>-->
+<!--            <img th:src="|/member/pfp/${pfp.getDbFileName().isBlank() ? '360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg' : pfp.getDbFileName()}|"-->
+<!--                 width="117" height="156">-->
+<!--        </div>-->
+
+        <div class="div2">
         <hr>
 
         <div>
@@ -22,6 +49,7 @@
 
             <button onclick="location.href='boards.html'"
                     th:onclick="|location.href='@{/boards}'|" type="button" th:text="#{home.board}">게시판</button>
+        </div>
         </div>
     </div>
 </body>

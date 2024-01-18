@@ -17,14 +17,23 @@
 
     <div>
         <form method="post" th:action th:object="${response}">
+
             <div>
                 <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
                 <input type="text" id="boardId" th:field="*{boardId}" readonly>
             </div>
+
             <div>
                 <label for="writer" th:text="#{board.board.writer}">작성자</label>
                 <input type="text" id="writer" th:field="*{writer}" readonly>
             </div>
+
+            <th:block th:if="${response.images!=null}">
+                <th:block th:each="image : ${response.images}">
+                    <img th:src="|/member/pfp/${image}|" width="200" height="200">
+                </th:block>
+            </th:block>
+
             <div>
                 <label for="title" th:text="#{board.board.title}">제목</label>
                 <input type="text" id="title" th:field="*{title}" readonly>

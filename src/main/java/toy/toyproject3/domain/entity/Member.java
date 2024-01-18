@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import toy.toyproject3.domain.entity.auditing.AuditingDate;
+import toy.toyproject3.web.dto.MemberEditResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,23 @@ public class Member extends AuditingDate {
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 
-    public Member(String name, int age, String loginid, String pw, UploadFile pfp) {
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<>();
+
+    public Member(String name, int age, String loginid, String pw) {
         this.name = name;
         this.age = age;
         this.loginid = loginid;
         this.pw = pw;
-        this.pfp = pfp;
+    }
+
+    public void edit(MemberEditResponse edit) {
+        loginid = edit.getLoginid();
+        pw = edit.getPw();
+        name = edit.getName();
+        age = edit.getAge();
+        if (edit.getPfp() != null) {
+            pfp = edit.getPfp();
+        }
     }
 }

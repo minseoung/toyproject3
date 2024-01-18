@@ -13,6 +13,7 @@ public class BoardResponse {
     private String title;
     private String content;
     private String writer;
+    private String[] images;
 
     public BoardResponse(Board board, Long loginMemberId) {
         this.boardId = board.getId();
@@ -21,5 +22,8 @@ public class BoardResponse {
         this.writer = board.getMember().getLoginid();
         this.boardMemberId = board.getMember().getId();
         this.loginMemberId = loginMemberId;
+        if (board.getImages() != null) {
+            this.images = board.getImages().split(" ");
+        }
     }
 }
