@@ -10,57 +10,127 @@
         th{background-color: teal; color: white;}
 
         th, td{border: 1px solid; padding: 10px 5px;}
+
+        #container{
+        width: 800px;
+        height: 1000px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+        }
+
+        h1{
+            color : teal;
+            text-align: center;
+        }
+
+        button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+        .buttonDiv {
+        width: 380px;
+        height: 100px;
+        margin: 0 auto;
+        }
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+        }
+        h3{
+            text-align: center;
+        }
+
+        #search{
+            margin: 0px 0px 0px 100px
+        }
+
+        #sb{
+            font-weight: bold;
+            width: 120px;
+            height: 30px;
+            font-size: 15px;
+            margin: 0px 0px 0px 0px;
+            border-radius: 20px;
+            background-color: #A4A4A4;
+        }
+
+        label{
+            font-weight: bold;
+        }
+
+        a{
+            text-decoration : none;
+        }
+
+        #bt{
+            margin: 0px 0px 10px 120px;
+        }
+
+        #num{
+            margin: 0px 0px 0px 360px;
+        }
+        input{
+            height: 10px;
+            margin: 0px 0px 0px 0px;
+            border-radius: 0px;
+            border: 2px solid #D8D8D8;
+            padding: 10px 10px 10px 10px;
+        }
     </style>
 </head>
 <body>
-    <div>
+    <div id="container">
         <div>
-            <h2 th:text="#{board.title}">게시판</h2>
+            <h1 th:text="'Welcome To Display Board'">게시판</h1>
         </div>
 
         <hr>
 
-        <div>
-            <div>
+        <div class="buttonDiv">
+
                 <button type="button" onclick="location.href='home_logined.html'"
-                th:onclick="|location.href='@{/home/logined}'|" th:text="#{board.home}">홈으로</button>
-            </div>
-            <div>
+                th:onclick="|location.href='@{/home/logined}'|" th:text="Home">홈으로</button>
+
                 <button type="button" onclick="location.href='addForm.html'"
-                        th:onclick="|location.href='@{/boards/add}'|" th:text="#{board.add}">글쓰기</button>
-            </div>
-        </div>
+                        th:onclick="|location.href='@{/boards/add}'|" th:text="Write">글쓰기</button>
 
-        <hr>
-
-        <div>
-            <h3 th:text="#{board.list}">게시글 목록</h3>
         </div>
 
         <div>
+            <h3 th:text="List">게시글 목록</h3>
+        </div>
+
+        <div id="search">
             <form th:object="${boardsRequest}">
-                <label for="title" th:text="#{board.cond.title}">게시글 제목</label>
-                <input type="text" id="title" th:field="*{title}" placeholder="제목을 입력하세요">
+                <label for="title" th:text="Title">게시글 제목</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="Enter Title">
 
-                <label for="title" th:text="#{board.cond.writer}">글쓴이</label>
-                <input type="text" id="writer" th:field="*{writer}" placeholder="글쓴이를 입력하세요">
+                <label for="title" th:text="Writer">글쓴이</label>
+                <input type="text" id="writer" th:field="*{writer}" placeholder="Enter Writer">
 
-                <button type="submit" th:text="#{board.search}">검색</button>
+                <button id="sb" type="submit" th:text="Search">검색</button>
             </form>
         </div>
 
         <p></p>
 
-        <div>
+        <div id="bt">
 
-            <label for="table" th:text="|총 ${boards.getTotalElements()}개의 결과가 나왔습니다|">총 개수</label>
+            <label for="table" th:text="|Totally ${boards.getTotalElements()} Results!|">총 개수</label>
             <table id="table">
                 <thead>
                     <tr>
-                        <th th:text="#{board.cond.num}">번호</th>
-                        <th th:text="#{board.cond.title}">게시글 제목</th>
-                        <th th:text="#{board.cond.writer}">글쓴이</th>
-                        <th th:text="#{board.date}">작성날짜</th>
+                        <th th:text="Number">번호</th>
+                        <th th:text="Title">게시글 제목</th>
+                        <th th:text="Writer">글쓴이</th>
+                        <th th:text="Date">작성날짜</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,12 +143,12 @@
                 </tbody>
             </table>
         </div>
-        <div>
+        <div id="num">
             <th:block th:if="|${boards.getPageable().getPageNumber() <= 0}|">
-                <span th:text="이전">이전</span>
+                <span th:text="Prev">Prev</span>
             </th:block>
             <th:block th:if="|${boards.getPageable().getPageNumber() > 0}|">
-                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() - 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="이전">이전</a>
+                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() - 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="Prev">이전</a>
             </th:block>
 
             <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">
@@ -88,10 +158,10 @@
             </th:block>
 
             <th:block th:if="|${boards.getPageable().getPageNumber() >= boards.getTotalPages() - 1}|">
-                <span th:text="다음">다음</span>
+                <span th:text="Next">다음</span>
             </th:block>
             <th:block th:if="|${boards.getPageable().getPageNumber() < boards.getTotalPages() - 1}|">
-                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() + 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="다음">다음</a>
+                <a th:href="@{/boards(page = ${boards.getPageable().getPageNumber() + 1}, title = ${boardsRequest.title}, writer = ${boardsRequest.writer})}" th:text="Next">다음</a>
             </th:block>
         </div>
     </div>

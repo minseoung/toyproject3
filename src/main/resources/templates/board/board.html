@@ -3,61 +3,222 @@
 <head>
     <meta charset="UTF-8">
 </head>
-<body>
-<div>
-    <div>
-        <h2 th:text="#{board.board.TITLE}">게시물 상세 페이지</h2>
-    </div>
+<style>
+    #container{
+        width: 800px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+        }
+    h1{
+        color : teal;
+        text-align: center;
+    }
+    #contentDiv{
+        padding: 20px;
+        margin: 0px 0px 20px 0px;
+    }
 
-    <div th:if="${param.status}">
-        <h3 th:text="'수정 완료'">수정완료</h3>
+    #l1{
+        font-weight: bold;
+    }
+
+    .imgs1{
+        margin: 0px 0px 10px 0px
+    }
+
+    .imgs2{
+        margin: 10px 0px 0px 0px
+    }
+
+    .ta1{
+        border: 2px solid #E6E6E6;
+        padding: 20px;
+    }
+    button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+        .buttonDiv {
+        width: 570px;
+        height: 100px;
+        margin: 0 auto;
+        }
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+        }
+        .cb{
+            width: 100px;
+            height: 25px;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 15px;
+            color: white;
+            background-color: #04B4AE;
+            border:none;
+        }
+        #cbs{
+            margin: 10px 0px 10px 570px
+        }
+
+        .pfp1{
+            border-radius: 50px;
+            margin: 100px 0px 0px 0px;
+        }
+
+        .pfp{
+            border-radius: 50px;
+            float:left;
+            margin: 20px;
+        }
+
+        .imgtx{
+            margin: 10px 0px 0px 0px;
+            padding: 20px;
+        }
+        #cp{
+            clear:both;
+        }
+        #block{
+            height: 5px
+        }
+        #cc{
+            font-size: 18px;
+           }
+</style>
+<body>
+<div id="container">
+    <div>
+        <h1 th:text="'Board Information'">게시물 상세 페이지</h1>
     </div>
 
     <hr>
 
+    <div th:if="${param.status}">
+        <h3 th:text="'Edit Complete'"></h3>
+    </div>
+
     <div>
-        <form method="post" th:action th:object="${response}">
-
+        <div id="contentDiv">
+            <h2 th:text="${response.title}"></h2>
             <div>
-                <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
-                <input type="text" id="boardId" th:field="*{boardId}" readonly>
+                <strong th:text="Number"></strong>
+                <span th:text="${response.boardId}"></span>
             </div>
-
-            <div>
-                <label for="writer" th:text="#{board.board.writer}">작성자</label>
-                <input type="text" id="writer" th:field="*{writer}" readonly>
+            <div class="imgs1">
+                <strong th:text="Writer"></strong>
+                <span th:text="${response.writer}"></span>
             </div>
-
             <th:block th:if="${response.images!=null}">
                 <th:block th:each="image : ${response.images}">
-                    <img th:src="|/member/pfp/${image}|" width="200" height="200">
+                    <div>
+                        <img th:src="|/member/pfp/${image}|" width="755" height="400">
+                    </div>
                 </th:block>
             </th:block>
+            <p class="imgs2">
+                <label id="l1" for="t" th:text="Content"></label>
+                <textarea class="ta1" cols="100" rows="10" id="t" th:text="${response.content}" readonly></textarea>
+            </p>
+        </div>
 
-            <div>
-                <label for="title" th:text="#{board.board.title}">제목</label>
-                <input type="text" id="title" th:field="*{title}" readonly>
-            </div>
-            <div>
-                <label for="content" th:text="#{board.board.content}">내용</label>
-                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}" readonly></textarea>
-            </div>
 
-            <hr>
+<!--            <div>-->
+<!--                <label for="boardId" th:text="#{board.board.boardId}">글번호</label>-->
+<!--                <input type="text" id="boardId" th:field="*{boardId}" readonly>-->
+<!--            </div>-->
 
-            <div>
-                <div th:if="${response.boardMemberId==response.loginMemberId}">
-                    <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}/edit|}'|" th:text="수정">수정</button>
-                </div>
-                <div th:if="${response.boardMemberId==response.loginMemberId}">
-                    <button type="submit" th:text="삭제">삭제</button>
-                </div>
-                <div>
-                    <button type="button" th:onclick="|location.href='@{/boards}'|" th:text="뒤로">뒤로</button>
-                </div>
+<!--            <div>-->
+<!--                <label for="writer" th:text="#{board.board.writer}">작성자</label>-->
+<!--                <input type="text" id="writer" th:field="*{writer}" readonly>-->
+<!--            </div>-->
+
+<!--            <th:block th:if="${response.images!=null}">-->
+<!--                <th:block th:each="image : ${response.images}">-->
+<!--                    <img th:src="|/member/pfp/${image}|" width="200" height="200">-->
+<!--                </th:block>-->
+<!--            </th:block>-->
+
+<!--            <div>-->
+<!--                <label for="title" th:text="#{board.board.title}">제목</label>-->
+<!--                <input type="text" id="title" th:field="*{title}" readonly>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="content" th:text="#{board.board.content}">내용</label>-->
+<!--                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}" readonly></textarea>-->
+<!--            </div>-->
+
+        <form method="post" th:action="@{|/boards/${response.boardId}/delete|}">
+            <div class="buttonDiv">
+
+                    <button type="button" th:if="${response.boardMemberId==response.loginMemberId}"
+                            th:onclick="|location.href='@{|/boards/${response.boardId}/edit|}'|" th:text="Edit">수정</button>
+
+                    <button th:if="${response.boardMemberId==response.loginMemberId}" type="submit" th:text="Delete">삭제</button>
+
+                    <button type="button" th:onclick="|location.href='@{/boards}'|" th:text="Back">뒤로</button>
+
             </div>
         </form>
+
     </div>
+
+        <div>
+            <form method="post" th:action="@{|/boards/${response.boardId}/comments/add|}">
+                <div>
+
+                    <th:block th:if="|${response.pfp == null}|">
+                        <img class="pfp1" th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
+                             width="60" height="60">
+                    </th:block>
+
+                    <th:block th:if="|${response.pfp != null}|">
+                        <img class="pfp1" th:src="|/member/pfp/${response.pfp.getDbFileName()}|"
+                             width="60" height="60">
+                    </th:block>
+
+                    <textarea class="imgtx" cols="104" rows="5" type="text" id="comment" name="content"
+                              placeholder="댓글 추가..."></textarea>
+                </div>
+                <div id="cbs">
+                    <span><button class="cb" type="submit" th:text="Comment">댓글</button></span>
+                    <span><button class="cb" type="reset" th:text="Cancel">취소</button></span>
+                </div>
+            </form>
+        </div>
+        <div>
+            <th:block th:if="${!response.comments.isEmpty()}">
+                <div th:each="comment : ${response.comments}">
+
+                    <th:block th:if="|${comment.pfp == null}|">
+                        <img class="pfp" th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
+                             width="60" height="60">
+                    </th:block>
+
+                    <th:block th:if="|${comment.pfp != null}|">
+                        <img class="pfp" th:src="|/member/pfp/${comment.pfp.getDbFileName()}|"
+                             width="60" height="60">
+                    </th:block>
+                    <p id="block"></p>
+                    <p>
+                        <strong th:text="${comment.writer}"></strong>
+                        <span th:text="${comment.writtenDate}"></span>
+                    </p>
+                    <p>
+                        <span id="cc" th:text="${comment.content}"></span>
+                    </p>
+
+                    <p id="cp"></p>
+                </div>
+            </th:block>
+        </div>
 </div>
 </body>
 </html>

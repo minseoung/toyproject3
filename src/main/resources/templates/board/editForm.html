@@ -8,55 +8,131 @@
         border-color: #dc3545;
         color: #dc3545;
     }
+    #container{
+        width: 800px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+    }
+    h1{
+        color : teal;
+        text-align: center;
+    }
+    #formDiv{
+        width: 340px;
+        margin: 0 auto;
+    }
+    input{
+            width: 300px;
+            height: 50px;
+            margin: 2px 0px 0px 0px;
+            border-radius: 20px;
+            border: 2px solid #D8D8D8;
+            padding: 0px 10px 0px 10px;
+    }
+
+    label{
+        font-weight: bold;
+        margin: 0px 0px 5px 10px;
+    }
+
+    .file{
+            width: 0px auto;
+            height: 0px auto;
+            margin: 20px 0px 0px 0px;
+            border-radius: 0px;
+            border: none;
+            padding: 0px;
+    }
+    .txt{
+            margin: 2px 0px 0px 0px;
+            border-radius: 20px;
+            border: 2px solid #D8D8D8;
+            padding: 10px;
+    }
+        button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+        .buttonDiv {
+        width: 380px;
+        height: 100px;
+        margin: 0 auto;
+        }
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+        }
+
+        #d1, #d2{
+            width: 300px;
+           margin: 0 auto;
+        }
+        #imgD{
+            margin: 20px 0px 0px 0px;
+        }
+        #block{
+            margin: 40px;
+        }
+        .d{
+            margin: 0px 0px 20px 0px;
+        }
 </style>
 <body>
-<div>
+<div id="container">
     <div>
-        <h2 th:text="#{board.edit.TITLE}">게시물 수정 페이지</h2>
+        <h1 th:text="Edit">게시물 수정 페이지</h1>
     </div>
 
     <hr>
 
     <div>
         <form method="post"  th:action th:object="${response}" enctype="multipart/form-data">
-            <div>
-                <label for="boardId" th:text="#{board.board.boardId}">글번호</label>
-                <input type="text" id="boardId" th:field="*{boardId}" readonly>
-            </div>
-            <div>
-                <label for="writer" th:text="#{board.board.writer}">작성자</label>
-                <input type="text" id="writer" th:field="*{writer}" readonly>
-            </div>
-            <div>
-                <th:block th:if="${response.images!=null}">
-                    <th:block th:each="image : ${response.images}">
-                        <img th:src="|/member/pfp/${image}|" width="200" height="200">
+            <div id="formDiv">
+                <div class="d">
+                    <label for="boardId" th:text="Number">글번호</label>
+                    <input type="text" id="boardId" th:field="*{boardId}" readonly>
+                </div>
+                <div class="d">
+                    <label for="writer" th:text="Writer">작성자</label>
+                    <input type="text" id="writer" th:field="*{writer}" readonly>
+                </div>
+                <div class="d">
+                    <label for="title" th:text="'Edit Title'">수정 할 제목</label>
+                    <input type="text" id="title" th:field="*{title}" th:errorclass="field-error">
+                    <div id="d1" th:if="${#fields.hasErrors('title')}" class="field-error" th:errors="*{title}">제목 오류</div>
+                </div>
+                <div>
+                    <th:block th:if="${response.images!=null}">
+                        <th:block th:each="image : ${response.images}">
+                            <img th:src="|/member/pfp/${image}|" width="200" height="200">
+                        </th:block>
                     </th:block>
-                </th:block>
 
-                <label for="files" th:text="|이미지 추가|">이미지 등록</label>
-                <input type="file" id="files" th:field="*{files}" multiple="multiple">
-            </div>
-            <div>
-                <label for="title" th:text="'수정 할 제목'">수정 할 제목</label>
-                <input type="text" id="title" th:field="*{title}" th:errorclass="field-error">
-                <div th:if="${#fields.hasErrors('title')}" class="field-error" th:errors="*{title}">제목 오류</div>
-            </div>
-            <div>
-                <label for="content" th:text="'수정 할 내용'">수정 할 내용</label>
-                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}" th:errorclass="field-error"></textarea>
-                <div class="field-error" th:errors="*{content}">내용 오류</div>
-            </div>
-
-            <hr>
-
-            <div>
-                <div>
-                    <button type="submit" th:text="수정완료">수정완료</button>
+                    <input class="file" type="file" id="files" th:field="*{files}" multiple="multiple">
                 </div>
                 <div>
-                    <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}|}'|" th:text="취소">취소</button>
+                    <label for="content" th:text="'Edit Content'">수정 할 내용</label>
+                    <textarea class="txt" cols="41" rows="10" type="text" id="content" th:field="*{content}" th:errorclass="field-error"></textarea>
+                    <div  id="d2" class="field-error" th:errors="*{content}">내용 오류</div>
                 </div>
+            </div>
+
+            <div id="block"></div>
+
+            <div class="buttonDiv">
+
+                    <button type="submit" th:text="Edit">수정완료</button>
+
+
+                    <button type="button" th:onclick="|location.href='@{|/boards/${response.boardId}|}'|" th:text="Cancel">취소</button>
+
             </div>
         </form>
     </div>

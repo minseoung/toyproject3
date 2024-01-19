@@ -7,12 +7,85 @@
             border-color: #dc3545;
             color: #dc3545;
         }
+        #container{
+        width: 800px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+        }
+        h1{
+            color : teal;
+            text-align: center;
+        }
+        #formDiv{
+        width: 340px;
+        margin: 0 auto;
+        }
+        input{
+            width: 300px;
+            height: 50px;
+            margin: 2px 0px 0px 0px;
+            border-radius: 20px;
+            border: 2px solid #D8D8D8;
+            padding: 0px 10px 0px 10px;
+        }
+        .file{
+            width: 0px auto;
+            height: 0px auto;
+            margin: 0px 0px 0px 0px;
+            border-radius: 0px;
+            border: none;
+            padding: 0px;
+        }
+
+        label{
+        font-weight: bold;
+        margin: 0px 0px 5px 10px;
+        }
+
+        .txt{
+            margin: 2px 0px 0px 0px;
+            border-radius: 20px;
+            border: 2px solid #D8D8D8;
+            padding: 10px;
+        }
+        button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+        .buttonDiv {
+        width: 380px;
+        height: 100px;
+        margin: 0 auto;
+        }
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+        }
+
+        #d1, #d2{
+           width: 300px;
+           margin: 0 auto;
+        }
+        #imgD{
+            margin: 20px 0px 0px 0px;
+        }
+        #block{
+            margin: 40px;
+        }
+
     </style>
 </head>
 <body>
-<div>
+<div id="container">
     <div>
-        <h2 th:text="#{board.add.title}">게시물 업로드 창</h2>
+        <h1 th:text="'Write Board'">게시물 업로드 창</h1>
     </div>
 
     <hr>
@@ -20,39 +93,40 @@
     <div>
         <form method="post" action="addForm.html" th:action th:object="${addRequest}" enctype="multipart/form-data">
 
-            <div th:if="${#fields.hasGlobalErrors()}">
-                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-            </div>
-
-            <div>
-                <label for="title" th:text="#{board.add.topic}">제목</label>
-                <input type="text" id="title" th:field="*{title}" th:errorclass="field-error"
-                       placeholder="제목을 입력해주세요">
-                <div class="field-error" th:errors="*{title}">제목 오류</div>
-            </div>
-
-            <div>
-                <label for="content" th:text="#{board.add.content}">내용</label>
-                <textarea cols="50" rows="10" type="text" id="content" th:field="*{content}"
-                          th:errorclass="field-error" placeholder="내용을 입력해주세요"></textarea>
-                <div class="field-error" th:errors="*{content}">내용 오류</div>
-            </div>
-
-            <div>
-                <label for="images" th:text="|이미지 추가|">이미지 추가</label>
-                <input type="file" id="images" th:field="*{images}" multiple="multiple">
-            </div>
-
-            <hr>
-
-            <div>
-                <div>
-                    <button type="submit" th:text="#{board.add.post}">게시</button>
+            <div id="formDiv">
+                <div th:if="${#fields.hasGlobalErrors()}">
+                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
                 </div>
+
                 <div>
+                    <label for="title" th:text="Title">제목</label>
+                    <input type="text" id="title" th:field="*{title}" th:errorclass="field-error"
+                           placeholder="Enter Title">
+                    <div id="d1" class="field-error" th:errors="*{title}">제목 오류</div>
+                </div>
+
+                <div id="imgD">
+                    <input class="file" type="file" id="images" th:field="*{images}" multiple="multiple">
+                </div>
+
+                <div>
+                    <label for="content" th:text="Content">내용</label>
+                    <textarea class="txt" cols="41" rows="10" type="text" id="content" th:field="*{content}"
+                              th:errorclass="field-error" placeholder="Enter Content"></textarea>
+                    <div id="d2" class="field-error" th:errors="*{content}">내용 오류</div>
+                </div>
+            </div>
+
+            <div id="block"></div>
+
+            <div class="buttonDiv">
+
+                    <button type="submit" th:text="Post">게시</button>
+
+
                     <button type="button" onclick="location.href='boards.html'"
-                            th:onclick="|location.href='@{/boards}'|" th:text="#{board.add.canc}">취소</button>
-                </div>
+                            th:onclick="|location.href='@{/boards}'|" th:text="Cancel">취소</button>
+
             </div>
 
         </form>

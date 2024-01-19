@@ -61,9 +61,11 @@ public class BoardService {
 
     public BoardResponse findBord(Long boardId, Long loginMemberId) {
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
-        if (optionalBoard.isPresent()) {
+        Optional<Member> optionalMember = memberRepository.findById(loginMemberId);
+        if (optionalBoard.isPresent() && optionalMember.isPresent()) {
             Board board = optionalBoard.get();
-            BoardResponse boardResponse = new BoardResponse(board, loginMemberId);
+            Member member = optionalMember.get();
+            BoardResponse boardResponse = new BoardResponse(board, member);
             return boardResponse;
         } else {
             throw new BoardNotFoundException("해당 게시물을 찾을 수 없습니다.");

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toy.toyproject3.domain.entity.Board;
 import toy.toyproject3.service.BoardService;
+import toy.toyproject3.service.CommentService;
 import toy.toyproject3.web.argumentResolver.Login;
 import toy.toyproject3.web.dto.*;
 
@@ -28,6 +29,7 @@ import java.util.List;
 @Slf4j
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
     @GetMapping("/boards")
     public String boards(@ModelAttribute(name = "boardsRequest")BoardsRequest boardsRequest,
                          @PageableDefault(page = 0, size = 10, sort = "lastModifiedDate", direction = Sort.Direction.DESC) Pageable pageable,
@@ -102,5 +104,12 @@ public class BoardController {
     public String delete(@PathVariable(name = "id") Long id) {
         boardService.delete(id);
         return "redirect:/boards";
+    }
+
+    @PostMapping("/boards/{boardId}/comments/add")
+    public String addComment(@PathVariable(name = "boardId") Long boardId, @Login Long loginMemberId,
+                             @ModelAttribute(name = "request") CommentAddRequest request) {
+        commentService.addComment(request, boardId, loginMemberId);
+        return "redirect:/boards/{boardId}";
     }
 }

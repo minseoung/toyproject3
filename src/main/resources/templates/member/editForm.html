@@ -8,69 +8,154 @@
         border-color: #dc3545;
         color: #dc3545;
     }
+    #container{
+        width: 500px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+    }
+    h1{
+        color : teal;
+        text-align: center;
+    }
+    #formDiv{
+        width: 340px;
+        height: 440px;
+        margin: 0 auto;
+    }
+    input{
+            width: 300px;
+            height: 50px;
+            margin: 2px 0px 0px 0px;
+            border-radius: 20px;
+            border: 2px solid #D8D8D8;
+            padding: 0px 10px 0px 10px;
+    }
+    span{
+        background-color: blue;
+        width: 70px;
+    }
+
+    .file{
+            width: 0px auto;
+            height: 0px auto;
+            margin: 0px 0px 0px 0px;
+            border-radius: 0px;
+            border: none;
+            padding: 0px 0px 0px 0px;
+    }
+
+    button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+    }
+
+    button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+    }
+
+    .buttonDiv {
+        width: 380px;
+        height: 100px;
+        margin: 0 auto;
+    }
+    label{
+        font-weight: bold;
+        margin: 0px 0px 5px 10px;
+    }
+    #imgDiv{
+        width: 120px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    #d2, #d3, #d4{
+        width: 300px;
+        margin: 0 auto;
+    }
+
+    #d5{
+       width: 300px;
+       margin: 0 auto;
+    }
+
+    .block{
+        margin: 0px 0px 20px 0px;
+    }
+
+    .bblock{
+        margin: 40px;
+    }
+
+
 </style>
 <body>
-    <div>
+    <div id="container">
         <div>
-            <h2>회원 수정 페이지</h2>
+            <h1>Edit</h1>
         </div>
+
+        <hr>
+
         <div>
             <form method="post" action="editForm.html" th:action th:object="${response}" enctype="multipart/form-data">
 
-<!--                <div th:if="${#fields.hasGlobalErrors()}">-->
-<!--                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>-->
-<!--                </div>-->
-
-                <div>
+                <div id="imgDiv">
                     <th:block th:if="|${response.pfp == null}|">
                         <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
                              width="117" height="156">
-                        <label for="file1" th:text="|프로필 사진|">프로필 사진</label>
-                        <input type="file" id="file1" th:field="*{file}">
+                        <div><input class="file" type="file" id="file1" th:field="*{file}"></div>
                     </th:block>
 
                     <th:block th:if="|${response.pfp != null}|">
                         <img th:src="|/member/pfp/${response.pfp.getDbFileName()}|"
                              width="117" height="156">
-                            <label for="file2" th:text="|프로필 사진|">프로필 사진</label>
-                            <input type="file" id="file2" th:field="*{file}">
+                            <div><input class="file" type="file" id="file2" th:field="*{file}"></div>
                     </th:block>
                 </div>
 
-                <div>
-                    <label for="loginid" th:text="아이디">아이디</label>
-                    <input type="text" id="loginid" th:field="*{loginid}" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{loginid}">아이디 오류</div>
-                </div>
-
-                <div>
-                    <label for="pw" th:text="비밀번호">비밀번호</label>
-                    <input type="text" id="pw" th:field="*{pw}" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{pw}">비밀번호 오류</div>
-                </div>
-
-                <div>
-                    <label for="name" th:text="이름">이름</label>
-                    <input type="text" id="name" th:field="*{name}" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{name}">이름 오류</div>
-                </div>
-
-                <div>
-                    <label for="age" th:text="나이">나이</label>
-                    <input type="text" id="age" th:field="*{age}" th:errorclass="field-error">
-                    <div class="field-error" th:errors="*{age}">나이 오류</div>
-                </div>
-
-                <hr>
-
-                <div>
-                    <div>
-                        <button type="submit" th:text="수정">수정</button>
+                <div id="formDiv">
+                    <div class="block">
+                        <label id="d1" th:text="'ID'">아이디</label>
+                        <input type="text" id="loginid" th:field="*{loginid}" th:errorclass="field-error">
+                        <div id="d2" class="field-error" th:errors="*{loginid}">아이디 오류</div>
                     </div>
-                    <div>
+
+                    <div class="block">
+                        <label th:text="'Password'">비밀번호</label>
+                        <input type="text" id="pw" th:field="*{pw}" th:errorclass="field-error">
+                        <div id="d3" class="field-error" th:errors="*{pw}">비밀번호 오류</div>
+                    </div>
+
+                    <div class="block">
+                        <label th:text="'Name'">이름</label>
+                        <input type="text" id="name" th:field="*{name}" th:errorclass="field-error">
+                        <div id="d4" class="field-error" th:errors="*{name}">이름 오류</div>
+                    </div>
+
+                    <div class="block">
+                        <label th:text="'Age'">나이</label>
+                        <input type="text" id="age" th:field="*{age}" th:errorclass="field-error">
+                        <div id="d5" class="field-error" th:errors="*{age}">나이 오류</div>
+                    </div>
+                </div>
+
+                <div class="bblock"></div>
+
+                <div class="buttonDiv">
+
+                        <button type="submit" th:text="Edit">수정</button>
+
+
                         <button type="button" onclick="location.href='home_logined.html'"
-                                th:onclick="|location.href='@{/home/logined}'|" th:text="취소">취소</button>
-                    </div>
+                                th:onclick="|location.href='@{/home/logined}'|" th:text="Cancel">취소</button>
+
                 </div>
 
             </form>

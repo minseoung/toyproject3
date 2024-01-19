@@ -107,7 +107,7 @@ public class MemberController {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(@PathVariable(name = "id") Long id, @ModelAttribute(name = "response") MemberEditResponse response,
+    public String edit(@PathVariable(name = "id") Long id, @Validated @ModelAttribute(name = "response") MemberEditResponse response,
                        BindingResult bindingResult, @Login Long loginMemberId) {
         if (bindingResult.hasErrors()) {
             return "member/editForm";

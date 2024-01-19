@@ -4,69 +4,145 @@
     <meta charset="UTF-8">
 </head>
 <style>
-    .info img{float:left; margin:10px;}
+    table {text-align: center;}
+    th{background-color: teal; color: white;}
+    th, td{border: 1px solid; padding: 10px 5px;}
+
+    .info img{float:left; margin: 10px 20px 10px 10px;}
     .div2{clear:both;}
+
+    #container{
+        width: 800px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+    }
+    h1{
+        color : teal;
+        text-align: center;
+    }
+
+    a{
+    text-decoration : none;
+    }
+
+        button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+        .buttonDiv {
+        width: 180px;
+        height: 100px;
+        margin: 0 auto;
+        }
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border:none;
+        }
+        .div1{
+            height: 180px;
+            padding: 20px;
+            margin: 0 auto;
+            border: 2px solid #D8D8D8;
+            border-radius: 20px;
+        }
+    #block{
+        height: 1px;
+    }
+    #strong{
+        font-size: 20px;
+    }
+    h3{
+        margin: 50px 0px 0px 0px;
+        text-align: center;
+    }
+    #tableDiv{
+        margin: 0px 0px 10px 120px;
+    }
+    #num{
+        margin: 0px 0px 10px 360px;
+    }
 </style>
 <body>
-    <div>
+    <div id="container">
         <div class="info">
-            <h2 th:text="'회원 정보'">회원 정보</h2>
-            <div>
-                <button type="button" onclick="location.href='home.html'"
-                        th:onclick="|location.href='@{/boards}'|" th:text="#{login.button.canc}">뒤로</button>
-            </div>
-            <hr>
-            <th:block th:if="|${response.pfp == null}|">
-                <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
-                     width="117" height="156">
-            </th:block>
+            <h1 th:text="'Member Information'">회원 정보</h1>
 
-            <th:block th:if="|${response.pfp != null}|">
-                <img th:src="|/member/pfp/${response.pfp.getDbFileName()}|"
-                     width="117" height="156">
-            </th:block>
-            <div>
-            <p>
-                <strong th:text="|${response.loginid}|"></strong>
-            </p>
-            <p>
-                <strong th:text="|이름 ${response.name}|">이름</strong>
-            </p>
-            <p>
-                <strong th:text="|나이 ${response.age}|">나이</strong>
-            </p>
+            <hr>
+
+            <div class="buttonDiv">
+                <button type="button" onclick="location.href='home.html'"
+                        th:onclick="|location.href='@{/boards}'|" th:text="Back">뒤로</button>
             </div>
+
+            <div class="div1">
+                <th:block th:if="|${response.pfp == null}|">
+                    <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
+                         width="117" height="156">
+                </th:block>
+
+                <th:block th:if="|${response.pfp != null}|">
+                    <img th:src="|/member/pfp/${response.pfp.getDbFileName()}|"
+                         width="117" height="156">
+                </th:block>
+                <div>
+                    <p>
+                        <div id="block"></div>
+                    </p>
+                    <p>
+                        <strong id="strong" th:text="|${response.loginid}|"></strong>
+                    </p>
+                    <p>
+                        <strong th:text="'Name&#58;'">이름</strong>
+                        <span th:text="${response.name}"></span>
+                    </p>
+                    <p>
+                        <strong th:text="'Age&#58;'">나이</strong>
+                        <span th:text="${response.age}"></span>
+                    </p>
+                </div>
+            </div>
+
+
         </div>
         <div class="div2">
-            <h2 th:text="|${response.loginid}이 올린 게시물|"></h2>
-            <hr>
+            <h3 th:text="|Recent Activity|"></h3>
 
-            <label for="table" th:text="|총 ${response.boards.getTotalElements()}개|">총 개수</label>
-            <table id="table">
-                <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>게시글 제목</th>
-                    <th>글쓴이</th>
-                    <th>작성날짜</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="board : ${response.boards.getContent()}">
-                    <td><a th:text="${board.boardId}">번호</a></td>
-                    <td><a th:href="@{|/boards/${board.boardId}|}" th:text="${board.title}">제목</a></td>
-                    <td><span th:text="${response.loginid}">작성자</span></td>
-                    <td><span th:text="${board.writtenDate}">작성날짜</span></td>
-                </tr>
-                </tbody>
-            </table>
+            <div id="tableDiv">
+                <label for="table" th:text="|Totally ${response.boards.getTotalElements()} Results!|">총 개수</label>
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Title</th>
+                        <th>Writer</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="board : ${response.boards.getContent()}">
+                        <td><a th:text="${board.boardId}">번호</a></td>
+                        <td><a th:href="@{|/boards/${board.boardId}|}" th:text="${board.title}">제목</a></td>
+                        <td><span th:text="${response.loginid}">작성자</span></td>
+                        <td><span th:text="${board.writtenDate}">작성날짜</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <div>
+
+            <div id="num">
                 <th:block th:if="|${response.boards.getPageable().getPageNumber() <= 0}|">
-                    <span th:text="이전">이전</span>
+                    <span th:text="Prev">이전</span>
                 </th:block>
                 <th:block th:if="|${response.boards.getPageable().getPageNumber() > 0}|">
-                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() - 1}|}" th:text="이전">이전</a>
+                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() - 1}|}" th:text="Prev">이전</a>
                 </th:block>
 
                 <th:block th:each="page : ${#numbers.sequence(response.startPage, response.endPage)}">
@@ -76,10 +152,10 @@
                 </th:block>
 
                 <th:block th:if="|${response.boards.getPageable().getPageNumber() >= response.boards.getTotalPages() - 1}|">
-                    <span th:text="다음">다음</span>
+                    <span th:text="Next">다음</span>
                 </th:block>
                 <th:block th:if="|${response.boards.getPageable().getPageNumber() < response.boards.getTotalPages() - 1}|">
-                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() + 1}|}" th:text="다음">다음</a>
+                    <a th:href="@{|/member/${response.id}?page=${response.boards.getPageable().getPageNumber() + 1}|}" th:text="Next">다음</a>
                 </th:block>
             </div>
 

@@ -4,51 +4,114 @@
     <meta charset="UTF-8">
 </head>
 <style>
-    img{float:left; margin:10px;}
+    img{float:left; margin: 10px 20px 10px 10px;}
     .div2{clear:both;}
+
+    #container{
+        width: 500px;
+        height: 800px;
+        padding: 0 20px 20px 20px;
+        border: 5px solid #D8D8D8;
+        margin: 0 auto;
+    }
+
+        h1{
+             color : teal;
+             text-align: center;
+        }
+
+        .div1{
+            height: 180px;
+            padding: 20px;
+            margin: 0 auto;
+            border: 2px solid #D8D8D8;
+            border-radius: 20px;
+        }
+
+        .buttonDiv{
+            width: 380px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        button{
+        font-weight: bold;
+        width: 180px;
+        height: 50px;
+        border-radius: 20px;
+        font-size: 20px;
+        color: white;
+        background-color: teal;
+        border: none;
+        margin: 30px 0px 0px 0px;
+        }
+
+        #top{
+            font-weight: bold;
+            width: 120px;
+            height: 30px;
+            font-size: 15px;
+            margin: 0px 0px 0px 0px;
+            border-radius: 20px;
+            background-color: #A4A4A4;
+        }
+
+        button:hover{
+        background-color: #0B615E;
+        box-shadow: rgba(99, 99, 99, 0.4) 0px 2px 8px 0px;
+        }
+
+        #logid{
+            font-size: 20px;
+        }
 </style>
 <body>
-    <div>
+    <div id="container">
         <div>
-            <h2 th:text="|${loginid}님 안녕하세요!!|"></h2>
+            <h1 th:text="|Hello! ${loginid}|"></h1>
         </div>
-        <th:block th:if="|${pfp == null}|">
-            <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
-                 width="117" height="156">
-        </th:block>
 
-        <th:block th:if="|${pfp != null}|">
-            <img th:src="|/member/pfp/${pfp.getDbFileName()}|"
-                 width="117" height="156">
-        </th:block>
-        <div>
-            <p><strong th:text="${loginid}">아이디</strong></p>
-            <p>
-                <strong th:text="이름">이름</strong>
-                <span th:text="${name}">이름</span>
-            </p>
-            <p>
-                <strong th:text="나이">나이</strong>
-                <span th:text="${age}">나이</span>
-            </p>
-            <button type="button"
-                    th:onclick="|location.href='@{|/member/${id}/edit|}'|" th:text="'회원정보 수정'">회원정보 수정</button>
+        <div class="div1">
+            <th:block th:if="|${pfp == null}|">
+                <img th:src="|/member/pfp/360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg|"
+                     width="117" height="156">
+            </th:block>
+
+            <th:block th:if="|${pfp != null}|">
+                <img th:src="|/member/pfp/${pfp.getDbFileName()}|"
+                     width="117" height="156">
+            </th:block>
+
+                <p><strong th:text="${loginid}" id="logid">아이디</strong></p>
+                <p>
+                    <strong th:text="'Name&#58;'">이름</strong>
+                    <span th:text="${name}">이름</span>
+                </p>
+                <p>
+                    <strong th:text="'Age&#58;'">나이</strong>
+                    <span th:text="${age}">나이</span>
+                </p>
+                <button id="top" type="button"
+                        th:onclick="|location.href='@{|/member/${id}/edit|}'|" th:text="'Edit'">회원정보 수정</button>
+
         </div>
+
 <!--        <div>-->
 <!--            <img th:src="|/member/pfp/${pfp.getDbFileName().isBlank() ? '360_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg' : pfp.getDbFileName()}|"-->
 <!--                 width="117" height="156">-->
 <!--        </div>-->
 
         <div class="div2">
-        <hr>
 
         <div>
             <form action="home.html" th:action="@{/member/logout}" method="post">
-                <button type="submit" th:text="#{home.logout}">로그아웃</button>
-            </form>
+                <div class="buttonDiv">
+                    <button class="bottom" onclick="location.href='boards.html'"
+                            th:onclick="|location.href='@{/boards}'|" type="button" th:text="Board">게시판</button>
+                    <button class="bottom" type="submit" th:text="Logout">로그아웃</button>
+                </div>
 
-            <button onclick="location.href='boards.html'"
-                    th:onclick="|location.href='@{/boards}'|" type="button" th:text="#{home.board}">게시판</button>
+            </form>
         </div>
         </div>
     </div>
